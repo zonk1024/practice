@@ -23,7 +23,7 @@ class animal:
             print 'checkZoo called'
             if not hasattr(func, 'ret'):
                 func.ret=(func(self), time.time())
-            elif time.time() - func.ret[1] < slow * .75:
+            elif time.time() - func.ret[1] < slow:
                 print func.__name__, 'found in cache and fresh'
             else:
                 print func.__name__, 'found in cache, but expired'
@@ -62,7 +62,8 @@ print '\ntrying again: print fred.monkey()'
 print fred.monkey()
 
 print '\nsleeping, then trying again: print fred.monkey()'
-time.sleep(slow)
+time.sleep(slow*2)
+print 'now trying: print fred.monkey()'
 print fred.monkey()
 
 #this is the last line of the file :)
