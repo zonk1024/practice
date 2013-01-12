@@ -12,7 +12,8 @@ import sys, time
 
 slow=2
 if len(sys.argv) != 1 and sys.argv[1] == '-v':
-    print open(sys.argv[0]).read()
+    with open(sys.argv[0]) as me:
+         print me.read()
 
 class animal:
     def __init__(self):
