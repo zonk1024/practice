@@ -6,6 +6,7 @@
 #before than we know what the return value is
 #already, and we can just return it because it
 #is stored as a property now.
+#update -- added cache ttl
 
 import sys, time
 
@@ -21,10 +22,13 @@ class animal:
         def checkZoo(self):
             print 'checkZoo called'
             if not hasattr(func, 'ret'):
-                func.ret=func(self)
+                func.ret=(func(self), time.time())
+            elif time.time() - func.ret[1] < slow * .75:
+                print func.__name__, 'found in cache and fresh'
             else:
-                print func.__name__, 'found in cache'
-            return func.ret
+                print func.__name__, 'found in cache, but expired'
+                func.ret=(func(self), time.time())
+            return func.ret[0]
         return checkZoo
     def lion(self):
         print 'lion called -- "processing"'
@@ -48,10 +52,17 @@ print fred.lion()
 print '\ntrying again: print fred.lion()'
 print fred.lion()
 
+print '\ntrying again: print fred.lion()'
+print fred.lion()
+
 print '\ntrying: print fred.monkey()'
 print fred.monkey()
 
 print '\ntrying again: print fred.monkey()'
+print fred.monkey()
+
+print '\nsleeping, then trying again: print fred.monkey()'
+time.sleep(slow)
 print fred.monkey()
 
 #this is the last line of the file :)
