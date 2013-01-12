@@ -27,35 +27,30 @@ class animal:
             return func.ret
         return checkZoo
     def lion(self):
-        print 'lion called -- extra sleep'
+        print 'lion called -- "processing"'
         time.sleep(slow)
-        print 'lion wake'
+        print 'lion done "processing"'
         return 'lion return'
     @zoo
     def monkey(self):
-        print 'monkey called -- extra sleep'
+        print 'monkey called -- "processing"'
         time.sleep(slow)
-        print 'monkey wake'
+        print 'monkey done "processing"'
         return 'monkey return'
 
 
-time.sleep(slow)
 print '\nfred=animal()'
 fred=animal()
 
-time.sleep(slow)
 print '\ntrying: print fred.lion()'
 print fred.lion()
 
-time.sleep(slow)
 print '\ntrying again: print fred.lion()'
 print fred.lion()
 
-time.sleep(slow)
 print '\ntrying: print fred.monkey()'
 print fred.monkey()
 
-time.sleep(slow)
 print '\ntrying again: print fred.monkey()'
 print fred.monkey()
 
