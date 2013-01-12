@@ -9,21 +9,21 @@
 
 import sys, time
 
-slow=1
-if len(sys.argv) != 1 and sys.argv[1] == 'quiet':
-    pass
-else:
+slow=2
+if len(sys.argv) != 1 and sys.argv[1] == '-v':
     print open(sys.argv[0]).read()
 
 class animal:
     def __init__(self):
         print 'animal.__init__ called'
     def zoo(func):
-        print 'zoo called on function "' + str(func.__name__) + '"'
+        print 'zoo called on function:',  func.__name__
         def checkZoo(self):
             print 'checkZoo called'
             if not hasattr(func, 'ret'):
                 func.ret=func(self)
+            else:
+                print func.__name__, 'found in cache'
             return func.ret
         return checkZoo
     def lion(self):
@@ -45,30 +45,18 @@ fred=animal()
 
 time.sleep(slow)
 print '\ntrying: print fred.lion()'
-try:
-    print fred.lion()
-except TypeError as e:
-    print 'fail:', e
+print fred.lion()
 
 time.sleep(slow)
 print '\ntrying again: print fred.lion()'
-try:
-    print fred.lion()
-except TypeError as e:
-    print 'fail:', e
+print fred.lion()
 
 time.sleep(slow)
 print '\ntrying: print fred.monkey()'
-try:
-    print fred.monkey()
-except TypeError as e:
-    print 'fail:', e
+print fred.monkey()
 
 time.sleep(slow)
 print '\ntrying again: print fred.monkey()'
-try:
-    print fred.monkey()
-except TypeError as e:
-    print 'fail:', e
+print fred.monkey()
 
 #this is the last line of the file :)
