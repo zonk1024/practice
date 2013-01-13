@@ -7,6 +7,7 @@
 #already, and we can just return it because it
 #is stored as a property now.
 #update -- added cache ttl
+#update -- gave ttl multiplier argument to zoo
 
 import sys, time
 
@@ -18,25 +19,28 @@ if len(sys.argv) != 1 and sys.argv[1] == '-v':
 class animal:
     def __init__(self):
         print 'animal.__init__ called'
-    def zoo(func):
-        print 'zoo called on function:',  func.__name__
-        def checkZoo(self):
-            print 'checkZoo called'
-            if not hasattr(func, 'ret'):
-                func.ret=(func(self), time.time())
-            elif time.time() - func.ret[1] < slow:
-                print func.__name__, 'found in cache and fresh'
-            else:
-                print func.__name__, 'found in cache, but expired'
-                func.ret=(func(self), time.time())
-            return func.ret[0]
-        return checkZoo
+    def zoo(duration):
+        print 'zoo called, with duration argument of', duration
+        def cage(func):
+            print 'cage called on function:',  func.__name__
+            def checkZoo(self):
+                print 'checkZoo called'
+                if not hasattr(func, 'ret'):
+                    func.ret=(func(self), time.time())
+                elif time.time() - func.ret[1] < slow * duration:
+                    print func.__name__, 'found in cache and fresh'
+                else:
+                    print func.__name__, 'found in cache, but expired'
+                    func.ret=(func(self), time.time())
+                return func.ret[0]
+            return checkZoo
+        return cage
     def lion(self):
         print 'lion called -- "processing"'
         time.sleep(slow)
         print 'lion done "processing"'
         return 'lion return'
-    @zoo
+    @zoo(1)
     def monkey(self):
         print 'monkey called -- "processing"'
         time.sleep(slow)
