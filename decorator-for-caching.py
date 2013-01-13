@@ -11,12 +11,13 @@
 
 import sys, time
 
-slow=2
+slow=1
 if len(sys.argv) != 1 and sys.argv[1] == '-v':
     with open(sys.argv[0]) as me:
          print me.read()
 
 class animal:
+    ttl=1*slow
     def __init__(self):
         print 'animal.__init__ called'
     def zoo(duration):
@@ -27,7 +28,7 @@ class animal:
                 print 'checkZoo called'
                 if not hasattr(func, 'ret'):
                     func.ret=(func(self), time.time())
-                elif time.time() - func.ret[1] < slow * duration:
+                elif time.time() - func.ret[1] < duration:
                     print func.__name__, 'found in cache and fresh'
                 else:
                     print func.__name__, 'found in cache, but expired'
@@ -40,7 +41,7 @@ class animal:
         time.sleep(slow)
         print 'lion done "processing"'
         return 'lion return'
-    @zoo(1)
+    @zoo(ttl)
     def monkey(self):
         print 'monkey called -- "processing"'
         time.sleep(slow)
@@ -67,7 +68,7 @@ print '\ntrying again: print fred.monkey()'
 print fred.monkey()
 
 print '\nsleeping, then trying again: print fred.monkey()'
-time.sleep(slow*2)
+time.sleep(animal.ttl)
 print 'now trying: print fred.monkey()'
 print fred.monkey()
 
