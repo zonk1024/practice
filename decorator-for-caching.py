@@ -30,6 +30,7 @@ class animal:
             print func.__name__, 'found in cache, and fresh'
         else:
             print func.__name__, 'found in cache, but expired'
+            func.ret=(func(self), time.time())
         return func.ret[0]
     def lion(self):
         print 'lion called -- "processing"'
