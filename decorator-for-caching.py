@@ -48,9 +48,10 @@ class animal:
         print 'monkey done "processing"'
         return 'monkey return'
 
-
 print '\nfred=animal()'
 fred=animal()
+
+print 'fred\'s monkey\'s name is:', fred.monkey.__name__
 
 print '\ntrying: print fred.lion()'
 print fred.lion()
