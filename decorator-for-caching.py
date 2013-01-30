@@ -8,6 +8,7 @@
 #is stored as a property now.
 #update -- added cache ttl
 #update -- gave ttl multiplier argument to zoo
+#update -- figured out how to decorate my decorator and keep it inside the class
 
 import sys, time
 from decorator import decorator
