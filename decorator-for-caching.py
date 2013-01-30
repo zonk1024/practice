@@ -21,7 +21,7 @@ class animal:
     ttl=1*slow
     def __init__(self):
         print 'animal.__init__ called'
-    @decorator
+ #   @decorator
     def zoo(func, duration):
         print 'zoo called, with duration argument of', duration
         if not hasattr(func, 'ret'):
