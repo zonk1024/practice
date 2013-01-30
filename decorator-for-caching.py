@@ -10,6 +10,7 @@
 #update -- gave ttl multiplier argument to zoo
 
 import sys, time
+from decorator import decorator
 
 slow=1
 if len(sys.argv) != 1 and sys.argv[1] == '-v':
@@ -21,20 +22,18 @@ class animal:
     def __init__(self):
         print 'animal.__init__ called'
     def zoo(duration):
-        print 'zoo called, with duration argument of', duration
-        def cage(func):
+        print 'zoo called, with duration argument of:', duration
+        @decorator
+        def cage(func, self):
             print 'cage called on function:',  func.__name__
-            def checkZoo(self):
-                print 'checkZoo called'
-                if not hasattr(func, 'ret'):
-                    func.ret=(func(self), time.time())
-                elif time.time() - func.ret[1] < duration:
-                    print func.__name__, 'found in cache and fresh'
-                else:
-                    print func.__name__, 'found in cache, but expired'
-                    func.ret=(func(self), time.time())
-                return func.ret[0]
-            return checkZoo
+            if not hasattr(func, 'ret'):
+                func.ret=(func(self), time.time())
+            elif time.time() - func.ret[1] < duration:
+                print func.__name__, 'found in cache and fresh'
+            else:
+                print func.__name__, 'found in cache, but expired'
+                func.ret=(func(self), time.time())
+            return func.ret[0]
         return cage
     def lion(self):
         print 'lion called -- "processing"'
