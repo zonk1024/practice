@@ -21,17 +21,20 @@ class animal:
     ttl=1*slow
     def __init__(self):
         print 'animal.__init__ called'
- #   @decorator
-    def zoo(func, duration):
-        print 'zoo called, with duration argument of', duration
-        if not hasattr(func, 'ret'):
-            func.ret=(func(self), time.time())
-        elif time.time() - func.ret[1] < duration:
-            print func.__name__, 'found in cache, and fresh'
-        else:
-            print func.__name__, 'found in cache, but expired'
-            func.ret=(func(self), time.time())
-        return func.ret[0]
+    def zoo(duration):
+        print 'zoo called, with duration argument of:', duration
+        @decorator
+        def cage(func, self):
+            print 'cage called on function:',  func.__name__
+            if not hasattr(func, 'ret'):
+                func.ret=(func(self), time.time())
+            elif time.time() - func.ret[1] < duration:
+                print func.__name__, 'found in cache and fresh'
+            else:
+                print func.__name__, 'found in cache, but expired'
+                func.ret=(func(self), time.time())
+            return func.ret[0]
+        return cage
     def lion(self):
         print 'lion called -- "processing"'
         time.sleep(slow)
@@ -44,9 +47,10 @@ class animal:
         print 'monkey done "processing"'
         return 'monkey return'
 
-
 print '\nfred=animal()'
 fred=animal()
+
+print 'fred\'s monkey\'s name is:', fred.monkey.__name__
 
 print '\ntrying: print fred.lion()'
 print fred.lion()
